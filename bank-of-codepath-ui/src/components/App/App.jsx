@@ -19,7 +19,7 @@ export default function App() {
 		<div className='App'>
       <nav className="app">
         <BrowserRouter>
-          <Navbar path={"/"} filterInputValue={filterInputValue} setFilterInputValue={setFilterInputValue}/>
+          <Navbar  filterInputValue={filterInputValue} setFilterInputValue={setFilterInputValue}/>
           <main>
             <Routes>
               <Route path="/" element={<Home />} />
