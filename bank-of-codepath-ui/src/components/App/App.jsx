@@ -12,7 +12,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [transfers, setTransfers] = useState([]);
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
   const [filterInputValue, setFilterInputValue] = useState("");
 
 	return (
@@ -22,7 +22,10 @@ export default function App() {
           <Navbar  filterInputValue={filterInputValue} setFilterInputValue={setFilterInputValue}/>
           <main>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Home transactions={transactions} setTransactions={setTransactions}
+											transfers={transfers} setTransfers={setTransfers} error={error}
+											setError={setError} isLoading={isLoading} setIsLoading={setIsLoading}
+											filterInputValue={filterInputValue}/>} />
               <Route path="/transactions/:transactionId" element={<TransactionDetail />} />
             </Routes>
           </main>
