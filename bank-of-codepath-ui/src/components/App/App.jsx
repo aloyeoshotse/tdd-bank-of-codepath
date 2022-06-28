@@ -17,15 +17,17 @@ export default function App() {
 
 	return (
 		<div className='App'>
-			<BrowserRouter className='app'>
-				<Navbar path={'/'}/>
-				<main>
-					<Routes>
-						<Route path='/' element={<Home />} />
-						<Route path='/transactions/:transactionId' element={<TransactionDetail />} />
-					</Routes>
-				</main>
-			</BrowserRouter>
+      <nav className="app">
+        <BrowserRouter>
+          <Navbar path={"/"} filterInputValue={filterInputValue} setFilterInputValue={setFilterInputValue}/>
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/transactions/:transactionId" element={<TransactionDetail />} />
+            </Routes>
+          </main>
+        </BrowserRouter>
+      </nav>
 		</div>
 	);
 }
