@@ -3,7 +3,7 @@ import Navbar from "../Navbar/Navbar";
 import Home from "../Home/Home";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { TransactionDetail } from "../TransactionDetail/TransactionDetail";
+import TransactionDetail from "../TransactionDetail/TransactionDetail";
 import { useState } from "react";
 
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
 	return (
 		<div className='App'>
 			<BrowserRouter className='app'>
-				<Navbar />
+				<Navbar path={'/'}/>
 				<main>
 					<Routes>
 						<Route path='/' element={<Home />} />
