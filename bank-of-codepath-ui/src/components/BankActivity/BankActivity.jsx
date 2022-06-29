@@ -6,7 +6,6 @@ import AddTransaction from "../AddTransaction/AddTransaction"
 export default function BankActivity() {
   return (
     <div className="bank-activity">
-      <AddTransaction/>
       <h2>Transactions</h2>
       <div className="table">
         <div className="table-header table-row">

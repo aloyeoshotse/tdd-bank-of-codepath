@@ -6,13 +6,16 @@ import "./Home.css"
 import axios from "axios"
 
 export default function Home({transactions, setTransactions, transfers, setTransfers, error,
-                                setError, isLoading, setIsLoading, filterInputValue}) {
+                                setError, isLoading, setIsLoading, filterInputValue,
+                                newTransactionForm, setNewTransactionForm, isCreating,
+                                setIsCreating}) {
   
   function getTransactionData() {
     axios.get("http://localhost:3001/bank/transactions")
     .then((res) => {
       setTransactions(res.data.transactions)
     })
+    .then(setIsLoading(false))
     .catch(error => {
       setError(error)
     })
@@ -23,6 +26,7 @@ export default function Home({transactions, setTransactions, transfers, setTrans
     try{
       let response = await axios.get(url)
       setTransfers(response.data.transfers)
+      await setIsLoading(false)
     }
     catch(e) {
       console.log(e)
@@ -34,9 +38,6 @@ export default function Home({transactions, setTransactions, transfers, setTrans
     setIsLoading(true)
     getTransactionData();
     getTransferData();
-    console.log("transaction: ",transactions)
-    console.log("transfer: ", transfers)
-    setIsLoading(false)
   }, [])
 
   
@@ -47,10 +48,16 @@ export default function Home({transactions, setTransactions, transfers, setTrans
     }
   }
 
+  const handleOnSubmitNewTransaction = (event) => {
+    console.log("event=",event.target.value)
+    setNewTransactionForm(event.target.value)
+  }
+
   return (
     <div className="home">
-      <AddTransaction />
-      {isLoading==true ? <h1>"Loading..."</h1> : <BankActivity transactions={filteredTransactions}/>}
+      <AddTransaction isCreating={isCreating} setIsCreating={setIsCreating} 
+                      form={newTransactionForm} setForm={setNewTransactionForm} handleOnSubmit={handleOnSubmitNewTransaction}/>
+      {isLoading==true ? <h1>Loading...</h1> : <BankActivity transactions={filteredTransactions}/>}
       {error == null ? null : <h2>{error}</h2>}
     </div>
   )
