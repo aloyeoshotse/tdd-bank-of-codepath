@@ -28,7 +28,7 @@ export default function TransactionDetail({transactions, setTransactions}) {
       }
       finally{
         setIsLoading(false)
-        hasFetched(false)
+        setHasFetched(false)
       }
     }, [transactionId])
 

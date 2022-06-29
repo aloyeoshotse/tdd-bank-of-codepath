@@ -15,7 +15,6 @@ export default function Home({transactions, setTransactions, transfers, setTrans
     .then((res) => {
       setTransactions(res.data.transactions)
     })
-    .then(setIsLoading(false))
     .catch(error => {
       setError(error)
     })
@@ -26,7 +25,6 @@ export default function Home({transactions, setTransactions, transfers, setTrans
     try{
       let response = await axios.get(url)
       setTransfers(response.data.transfers)
-      await setIsLoading(false)
     }
     catch(e) {
       console.log(e)
@@ -34,19 +32,25 @@ export default function Home({transactions, setTransactions, transfers, setTrans
     }
   }
 
-  useEffect(() => {
-    setIsLoading(true)
-    getTransactionData();
-    getTransferData();
+  useEffect(async () => {
+    await setIsLoading(true)
+    await getTransactionData();
+    await getTransferData();
+    await setIsLoading(false)
   }, [])
 
-  
- var filteredTransactions = transactions
-  if (filterInputValue != undefined){
-    if (filterInputValue != "") {
-      filteredTransactions.filter((item) => {item.description.toLowerCase().includes(filterInputValue)})
+
+  var filteredTransactions = [];
+  if (transactions){
+    filteredTransactions = transactions;
+    if (filterInputValue != ""){
+      filteredTransactions = transactions.filter((item) => {
+        return item.description.toLowerCase().includes(filterInputValue.toLowerCase());
+      })
     }
   }
+
+
 
   const handleOnSubmitNewTransaction = (event) => {
     setNewTransactionForm(event.target.value)
@@ -54,13 +58,6 @@ export default function Home({transactions, setTransactions, transfers, setTrans
 
   async function handleOnCreateTransaction() {
     setIsCreating(true);
-    // try{
-    //   axios.post("http://localhost:3001/bank/transactions", newTransactionForm)
-    // }
-    // catch (err){
-    //   setError(err)
-    //   setIsCreating(false)
-    // }
     axios.post("http://localhost:3001/bank/transactions", newTransactionForm)
       .then((res) => { 
         transactions = transactions.concat(res.data.transactions)
@@ -74,12 +71,33 @@ export default function Home({transactions, setTransactions, transfers, setTrans
       })
   }
 
-  return (
-    <div className="home">
-      <AddTransaction isCreating={isCreating} setIsCreating={setIsCreating} 
-                      form={newTransactionForm} setForm={setNewTransactionForm} handleOnSubmit={handleOnSubmitNewTransaction}/>
-      {isLoading==true ? <h1>Loading...</h1> : <BankActivity transactions={filteredTransactions} transfers={transfers}/>}
-      {error == null ? null : <h2>{error}</h2>}
-    </div>
-  )
+  // useEffect(() => {
+  //   console.log("transactions_new= ", transactions)
+  // }, [])
+
+  // return (
+    // <div className="home">
+    //   <AddTransaction isCreating={isCreating} setIsCreating={setIsCreating} 
+    //                   form={newTransactionForm} setForm={setNewTransactionForm} handleOnSubmit={handleOnSubmitNewTransaction}/>
+    //   {isLoading==true ? <h1>Loading...</h1> : <BankActivity transactions={filteredTransactions} transfers={transfers}/>}
+    //   {error == null ? null : <h2>{error}</h2>}
+    // </div>
+  // )
+
+  {
+    return(
+      isLoading == true ? 
+        <div className="home">
+          <AddTransaction form={newTransactionForm} isCreating={isCreating} setIsCreating={setIsCreating} />
+          <h1>Loading...</h1> 
+        </div>
+      :
+        <div className="home">
+          <AddTransaction form={newTransactionForm} isCreating={isCreating} setIsCreating={setIsCreating} />
+          <BankActivity transactions={filteredTransactions} transfers={transfers}/>
+          {error == null ? null : <h2>{error}</h2>}
+        </div>
+    )
+
+  }
 }

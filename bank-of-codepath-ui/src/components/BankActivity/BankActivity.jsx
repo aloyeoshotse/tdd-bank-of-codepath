@@ -3,8 +3,14 @@ import { formatDate, formatAmount } from "../../utils/format"
 import "./BankActivity.css"
 import AddTransaction from "../AddTransaction/AddTransaction"
 import { Link } from "react-router-dom"
+import { useEffect } from "react"
 
 export default function BankActivity({transactions, transfers}) {
+
+  // useEffect(() => {
+  //   console.log("transactions_new= ", transactions)
+  // }, [])
+
   return (
     <div className="bank-activity">
       <h2>Transactions</h2>
@@ -16,9 +22,9 @@ export default function BankActivity({transactions, transfers}) {
           <span className="col x15">Date</span>
         </div>
         {
-          transactions.map((trans) => {
+          transactions.map((trans, idx) => {
             return(
-              <TransactionRow transaction={trans}/>
+              <TransactionRow key={idx} transaction={trans}/>
             )
           })
         }
@@ -32,13 +38,13 @@ export default function BankActivity({transactions, transfers}) {
           <span className="col x2">Amount</span>
           <span className="col x15">Date</span>
         </div>
-        {
-          transfers.map((trans) => {
+        {/* {
+          transfers.map((trans, idx) => {
             return(
-              <TransferRow transfer={trans}/>
+              <TransferRow key={idx} transfer={trans}/>
             )
           })
-        }
+        } */}
       </div>
     </div>
   )

@@ -1,8 +1,13 @@
 import * as React from "react"
 import "./FilterInput.css"
+import { useEffect } from "react"
 
 export default function FilterInput({inputValue, handleOnChange}) {
-  console.log(inputValue)
+
+  useEffect(() => {
+    console.log("input-val=",inputValue)
+  }, [])
+
   return (
     <div className="filter-input">
       <i className="material-icons">search</i>

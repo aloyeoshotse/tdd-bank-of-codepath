@@ -12,11 +12,12 @@ export default function AddTransaction({form, isCreating, setIsCreating, setForm
     let pair = {[property] : value}
     newObj = {...newObj, ...pair}
     setForm(newObj)
-  }
 
   useEffect(() => {
     console.log(form)
   })
+
+  }
 
   return (
     <div className="add-transaction">
@@ -33,15 +34,24 @@ export function AddTransactionForm({form, handleOnSubmit, handleOnFormFieldChang
       <div className="fields">
         <div className="field">
           <label>Description</label>
-          <input name="description" placeholder="Description" type="text" value={form.description} onChange={handleOnFormFieldChange}/>
+          { 
+            form == undefined ? 
+            null : <input name="description" placeholder="Description" type="text" value={form.description} onChange={handleOnFormFieldChange}/>
+          }
         </div>
         <div className="field">
           <label>Category</label>
-          <input name="category" placeholder="Category" type="text" value={form.category} onChange={handleOnFormFieldChange}/>
+          { 
+            form == undefined ? 
+            null : <input name="description" placeholder="Description" type="text" value={form.category} onChange={handleOnFormFieldChange}/>
+          }
         </div>
         <div className="field half-flex">
           <label>Amount (cents)</label>
-          <input name="amount" placeholder="Amount" type="number" value={form.amount} onChange={handleOnFormFieldChange}/>
+          { 
+            form == undefined ? 
+            null : <input name="description" placeholder="Description" type="text" value={form.amount} onChange={handleOnFormFieldChange}/>
+          }
         </div>
 
         <button className="btn add-transaction" type="submit" onClick={handleOnSubmit}>
