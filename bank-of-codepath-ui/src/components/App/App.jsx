@@ -30,7 +30,7 @@ export default function App() {
 											filterInputValue={filterInputValue} newTransactionForm={newTransactionForm}
 											setNewTransactionForm={setNewTransactionForm} isCreating={isCreating}
 											setIsCreating={setIsCreating}/>} />
-              <Route path="/transactions/:transactionId" element={<TransactionDetail />} />
+              <Route path="/transactions/:transactionId" element={<TransactionDetail transactions={transactions} setTransactions={setTransactions}/>} />
             </Routes>
           </main>
         </BrowserRouter>
