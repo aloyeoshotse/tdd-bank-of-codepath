@@ -8,6 +8,7 @@ export default function AddTransaction({form, isCreating, setIsCreating, setForm
     let newObj = form
     let property = change.target.name
     let value = change.target.value
+    if (property == "amount") {value = parseInt(value)}
     let pair = {[property] : value}
     newObj = {...newObj, ...pair}
     setForm(newObj)
@@ -26,21 +27,21 @@ export default function AddTransaction({form, isCreating, setIsCreating, setForm
   )
 }
 
-export function AddTransactionForm({ form, handleOnSubmit, handleOnFormFieldChange}) {
+export function AddTransactionForm({form, handleOnSubmit, handleOnFormFieldChange}) {
   return (
     <div className="form">
       <div className="fields">
         <div className="field">
           <label>Description</label>
-          <input name="description" placeholder="Description" type="text" onChange={handleOnFormFieldChange}/>
+          <input name="description" placeholder="Description" type="text" value={form.description} onChange={handleOnFormFieldChange}/>
         </div>
         <div className="field">
           <label>Category</label>
-          <input name="category" placeholder="Category" type="text" onChange={handleOnFormFieldChange}/>
+          <input name="category" placeholder="Category" type="text" value={form.category} onChange={handleOnFormFieldChange}/>
         </div>
         <div className="field half-flex">
           <label>Amount (cents)</label>
-          <input name="amount" placeholder="Amount" type="text" onChange={handleOnFormFieldChange}/>
+          <input name="amount" placeholder="Amount" type="number" value={form.amount} onChange={handleOnFormFieldChange}/>
         </div>
 
         <button className="btn add-transaction" type="submit" onClick={handleOnSubmit}>

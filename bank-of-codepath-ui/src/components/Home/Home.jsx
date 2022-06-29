@@ -43,14 +43,35 @@ export default function Home({transactions, setTransactions, transfers, setTrans
   
  var filteredTransactions = transactions
   if (filterInputValue != undefined){
-    if (filterInputValue.length != 0) {
+    if (filterInputValue != "") {
       filteredTransactions.filter((item) => {item.description.toLowerCase().includes(filterInputValue)})
     }
   }
 
   const handleOnSubmitNewTransaction = (event) => {
-    console.log("event=",event.target.value)
     setNewTransactionForm(event.target.value)
+  }
+
+  async function handleOnCreateTransaction() {
+    setIsCreating(true);
+    // try{
+    //   axios.post("http://localhost:3001/bank/transactions", newTransactionForm)
+    // }
+    // catch (err){
+    //   setError(err)
+    //   setIsCreating(false)
+    // }
+    axios.post("http://localhost:3001/bank/transactions", newTransactionForm)
+      .then((res) => { 
+        transactions = transactions.concat(res.data.transactions)
+        setTransactions(transactions);
+        setNewTransactionForm({category:"", description:"", amount:0})
+        setIsCreating(false);
+      })
+      .catch((err) => {
+        setError(err);
+        setIsCreating(false)
+      })
   }
 
   return (
