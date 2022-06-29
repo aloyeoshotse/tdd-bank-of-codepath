@@ -78,7 +78,7 @@ export default function Home({transactions, setTransactions, transfers, setTrans
     <div className="home">
       <AddTransaction isCreating={isCreating} setIsCreating={setIsCreating} 
                       form={newTransactionForm} setForm={setNewTransactionForm} handleOnSubmit={handleOnSubmitNewTransaction}/>
-      {isLoading==true ? <h1>Loading...</h1> : <BankActivity transactions={filteredTransactions}/>}
+      {isLoading==true ? <h1>Loading...</h1> : <BankActivity transactions={filteredTransactions} transfers={transfers}/>}
       {error == null ? null : <h2>{error}</h2>}
     </div>
   )
