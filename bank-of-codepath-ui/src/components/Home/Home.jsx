@@ -51,49 +51,47 @@ export default function Home({transactions, setTransactions, transfers, setTrans
   }
 
 
+  // async function handleOnSubmitNewTransaction (event) {
+  //   await setNewTransactionForm(event.target.value)
+  // }
 
-  const handleOnSubmitNewTransaction = (event) => {
-    setNewTransactionForm(event.target.value)
-  }
-
-  async function handleOnCreateTransaction() {
+ const handleOnCreateTransaction = async () => {
     setIsCreating(true);
-    axios.post("http://localhost:3001/bank/transactions", newTransactionForm)
+    axios.post("http://localhost:3001/bank/transactions", {transaction: newTransactionForm})
       .then((res) => { 
-        transactions = transactions.concat(res.data.transactions)
-        setTransactions(transactions);
-        setNewTransactionForm({category:"", description:"", amount:0})
-        setIsCreating(false);
+        setTransactions((transactions) => [...transactions,res.data.transaction]);
       })
       .catch((err) => {
         setError(err);
         setIsCreating(false)
       })
+      .finally(() => {
+        setIsCreating(false);
+        setNewTransactionForm({description:"", category:"", amount:0})
+      })
   }
 
   // useEffect(() => {
-  //   console.log("transactions_new= ", transactions)
-  // }, [])
+  //   console.log("new data = ", transactions);
+  // }, [transactions])
 
-  // return (
-    // <div className="home">
-    //   <AddTransaction isCreating={isCreating} setIsCreating={setIsCreating} 
-    //                   form={newTransactionForm} setForm={setNewTransactionForm} handleOnSubmit={handleOnSubmitNewTransaction}/>
-    //   {isLoading==true ? <h1>Loading...</h1> : <BankActivity transactions={filteredTransactions} transfers={transfers}/>}
-    //   {error == null ? null : <h2>{error}</h2>}
-    // </div>
-  // )
+  // useEffect(() => {
+  //   console.log("form = ", newTransactionForm);
+  // }, [newTransactionForm])
+
 
   {
     return(
       isLoading == true ? 
         <div className="home">
-          <AddTransaction form={newTransactionForm} isCreating={isCreating} setIsCreating={setIsCreating} />
+          <AddTransaction form={newTransactionForm} setForm={setNewTransactionForm} isCreating={isCreating} 
+                            setIsCreating={setIsCreating} handleOnSubmit={handleOnCreateTransaction}/>
           <h1>Loading...</h1> 
         </div>
       :
         <div className="home">
-          <AddTransaction form={newTransactionForm} isCreating={isCreating} setIsCreating={setIsCreating} />
+          <AddTransaction form={newTransactionForm} setForm={setNewTransactionForm} isCreating={isCreating} 
+                            setIsCreating={setIsCreating} handleOnSubmit={handleOnCreateTransaction}/>
           <BankActivity transactions={filteredTransactions} transfers={transfers}/>
           {error == null ? null : <h2>{error}</h2>}
         </div>

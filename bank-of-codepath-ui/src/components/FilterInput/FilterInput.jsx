@@ -3,11 +3,6 @@ import "./FilterInput.css"
 import { useEffect } from "react"
 
 export default function FilterInput({inputValue, handleOnChange}) {
-
-  useEffect(() => {
-    console.log("input-val=",inputValue)
-  }, [])
-
   return (
     <div className="filter-input">
       <i className="material-icons">search</i>
