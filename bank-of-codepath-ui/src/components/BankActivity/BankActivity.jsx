@@ -7,9 +7,6 @@ import { useEffect } from "react"
 
 export default function BankActivity({transactions, transfers}) {
 
-  // useEffect(() => {
-  //   console.log("transactions_new= ", transactions)
-  // }, [])
 
   return (
     <div className="bank-activity">
@@ -21,12 +18,13 @@ export default function BankActivity({transactions, transfers}) {
           <span className="col x2">Amount</span>
           <span className="col x15">Date</span>
         </div>
-        {
+        { transactions ? 
           transactions.map((trans, idx) => {
             return(
               <TransactionRow key={idx} transaction={trans}/>
             )
-          })
+          }) :
+          null
         }
       </div>
 
@@ -38,21 +36,23 @@ export default function BankActivity({transactions, transfers}) {
           <span className="col x2">Amount</span>
           <span className="col x15">Date</span>
         </div>
-        {/* {
+        { transfers ? 
           transfers.map((trans, idx) => {
             return(
               <TransferRow key={idx} transfer={trans}/>
             )
-          })
-        } */}
+          }) :
+          null
+        }
       </div>
     </div>
   )
 }
 
 export function TransactionRow({ transaction = {} }) {
+  let url = `/transactions/${transaction.id}`
   return (
-    <Link to={`${transaction.id}`}>
+    <Link to={url}>
       <div className="table-row transaction-row">
         <span className="col x4">
           <Arrow amount={transaction.amount} />
