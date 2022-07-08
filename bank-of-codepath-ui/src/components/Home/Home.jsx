@@ -51,10 +51,6 @@ export default function Home({transactions, setTransactions, transfers, setTrans
   }
 
 
-  // async function handleOnSubmitNewTransaction (event) {
-  //   await setNewTransactionForm(event.target.value)
-  // }
-
  const handleOnCreateTransaction = async () => {
     setIsCreating(true);
     axios.post("http://localhost:3001/bank/transactions", {transaction: newTransactionForm})
@@ -70,15 +66,6 @@ export default function Home({transactions, setTransactions, transfers, setTrans
         setNewTransactionForm({description:"", category:"", amount:0})
       })
   }
-
-  // useEffect(() => {
-  //   console.log("new data = ", transactions);
-  // }, [transactions])
-
-  // useEffect(() => {
-  //   console.log("form = ", newTransactionForm);
-  // }, [newTransactionForm])
-
 
   {
     return(
